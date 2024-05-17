@@ -56,10 +56,8 @@ export const loginController = async (req, res) => {
     const user = await userModel.findOne({ email })
     if(!user){
       return res.status(404).send({
-
         success:false,
         message:"user not found please register"
-
       })
     }
 
@@ -96,5 +94,14 @@ export const loginController = async (req, res) => {
       message: 'Error in login',
       error,
     })
+  }
+}
+
+
+export const testController = async (req,res) => {
+  try {
+    res.send('protected Route ')
+  } catch (error) {
+    res.send({error})
   }
 }
