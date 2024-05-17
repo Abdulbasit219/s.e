@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useAuth } from '../context/auth';
+import { Select } from 'antd';
+
+const { Option } = Select;
 
 const navbar = () => {
 
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
   const [opensearch, setOpensearch] = useState(false);
-  const [auth] = useAuth();
+  const [auth, setAuth] = useAuth();
 
   const toggleMobileMenu = () => {
     setOpenMobileMenu(!openMobileMenu);
@@ -14,6 +17,15 @@ const navbar = () => {
 
   const toggleSearchMenu = () => {
     setOpensearch(!opensearch);
+  }
+
+  const handleLogout = () => {
+    setAuth({
+      ...auth,
+      user: null,
+      token: ''
+    })
+    localStorage.removeItem('userdata')
   }
 
 
@@ -135,8 +147,24 @@ const navbar = () => {
                           Home
                         </NavLink>
                       </li>
+
+                      <li>
+                        <Select
+                          placeholder={auth?.user?.name}
+                        >
+                          <Option>
+                            Dashboard
+                          </Option>
+                          <Option>
+                            <Link to="/" className='block px-4 py-2' onClick={handleLogout}>
+                              <li >Log out</li>
+                            </Link>
+                          </Option>
+                        </Select>
+                      </li>
+
                     </>
-                  ) 
+                  )
                   :
                   (
                     <>
