@@ -3,6 +3,7 @@ import Layout from '../component/Layout'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 
+
 const Home = () => {
 
   const [products, setProducts] = useState([]);
@@ -39,11 +40,11 @@ const Home = () => {
                 className="group relative">
 
                 {/* image */}
-                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                <div className="block relative h-48 rounded overflow-hidden">
                   <img
                     src={product.image}
                     alt={product.image}
-                    className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                    className="object-contain object-center w-full h-full block"
                   />
                 </div>
 
