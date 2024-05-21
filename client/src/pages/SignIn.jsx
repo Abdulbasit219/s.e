@@ -3,11 +3,13 @@ import { React, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from '../context/auth';
+import Eyebtn from '../component/Eyebtn'
 
 const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showEye, setshoweye] = useState(false);
 
   //context
   const [auth, setAuth] = useAuth();
@@ -26,7 +28,7 @@ const Login = () => {
           // ...auth,
           user: res.data.user,
           token: res.data.token
-      })
+        })
         alert("Successfully login");
         localStorage.setItem('userdata', JSON.stringify(res.data));
         navigate("/");
@@ -40,7 +42,10 @@ const Login = () => {
     }
   };
 
-
+  const eyeToggle = (e) => {
+    e.preventDefault();
+    setshoweye(!showEye)
+  }
 
   return (
     <Layout>
@@ -88,16 +93,16 @@ const Login = () => {
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                   Password
                 </label>
-                <div className="mt-1">
+                <div className="mt-1 relative">
                   <input
-                    id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
+                    type={showEye ? "text" : "password"}
                     required
-                    className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Enter your password" />
+                    className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 sm:text-sm"
+                    placeholder="Enter your password"
+                  />
+                  <Eyebtn showEye={showEye} eyeToggle={eyeToggle} />
                 </div>
               </div>
 

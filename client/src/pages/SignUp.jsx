@@ -1,16 +1,17 @@
-import { React, useState  } from "react";
+import { React, useState } from "react";
 import Layout from "../component/Layout";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Eyebtn from "../component/Eyebtn";
 
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [conformPassword, setConformPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [showEye, setShowEye] = useState(false);
 
   const navigate = useNavigate();
 
@@ -35,12 +36,13 @@ const SignUp = () => {
       }
     } catch (error) {
       console.log(error);
-      
-      // toast.error("Something went wrong");
     }
   };
 
-  // `${process.env.REACT_URL}/api/v1/auth/register`,
+  const eyeToggle = (e) => {
+    e.preventDefault();
+    setShowEye(!showEye)
+  }
 
   return (
     <Layout>
@@ -64,7 +66,11 @@ const SignUp = () => {
 
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
             <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-              <form method="POST" action="#" onSubmit={handleSubmit}>
+              <form
+                method="POST"
+                action="#"
+                onSubmit={handleSubmit}>
+
                 {/* name field */}
                 <div>
                   <label
@@ -118,40 +124,19 @@ const SignUp = () => {
                     Password
                   </label>
 
-                  <div className="mt-1 rounded-md shadow-sm">
+                  <div className="mt-1 rounded-md shadow-sm relative">
                     <input
                       id="password"
                       name="password"
-                      type="password"
+                      type={showEye ? "text" : "password"}
                       required
-                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
+                    <Eyebtn showEye={showEye} eyeToggle={eyeToggle} />
                   </div>
                 </div>
-
-                {/* confirm password */}
-                {/* <div className="mt-6">
-                  <label
-                    htmlFor="password_confirmation"
-                    className="block text-sm font-medium leading-5 text-gray-700"
-                  >
-                    Confirm Password
-                  </label>
-
-                  <div className="mt-1 rounded-md shadow-sm">
-                    <input
-                      id="password_confirmation"
-                      name="password_confirmation"
-                      type="password"
-                      required
-                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                      value={conformPassword}
-                      onChange={(e) => setConformPassword(e.target.value)}
-                    />
-                  </div>
-                </div> */}
 
                 {/* phone field  */}
                 <div className="mt-6">
@@ -208,7 +193,9 @@ const SignUp = () => {
                     </button>
                   </span>
                 </div>
+
               </form>
+
             </div>
           </div>
         </div>
