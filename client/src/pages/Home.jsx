@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../component/Layout'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link , NavLink } from 'react-router-dom'
+
 
 
 const Home = () => {
@@ -54,12 +55,12 @@ const Home = () => {
                   {/* product name */}
                   <div>
                     <h3 className="font-bold text-gray-700">
-                      <Link>
+                      <div>
                         <span
                           aria-hidden="true"
                           className="absolute inset-0" />
                         {product.title.substring(0,20)}...
-                      </Link>
+                      </div>
                     </h3>
                   </div>
 
@@ -69,7 +70,14 @@ const Home = () => {
                 {/* btn more details & add to cart */}
                 <div className='w-full flex justify-between my-2'>
                   <button className='bg-blue-500 p-2 mx-4 rounded-lg font-bold text-white hover:opacity-50'>Add to cart</button>
-                  <button className='bg-blue-500 p-2 mx-4 rounded-lg font-bold text-white hover:opacity-50'>More datail</button>
+                 
+                  {/* <Link to={`/singleproducts/${id}`}> */}
+                  <button className='bg-blue-500 p-2 mx-4 rounded-lg font-bold text-white hover:opacity-50'>
+                 More detail
+                  </button> 
+                  {/* </Link> */}
+                  
+
                 </div>
 
               </div>
