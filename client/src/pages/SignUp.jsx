@@ -3,6 +3,7 @@ import Layout from "../component/Layout";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Eyebtn from "../component/Eyebtn";
+import toast from "react-hot-toast";
 
 
 const SignUp = () => {
@@ -26,13 +27,10 @@ const SignUp = () => {
         address,
       });
       if (res && res.data.success) {
-        // toast.success(res.data && res.data.message);
-        alert("Successfully register")
+        toast.success(res.data.message);
         navigate("/signin");
-
       } else {
-        // toast.error(res.data.message);
-        alert("nhi howa bhai tu")
+        toast.error(res.data.message);
       }
     } catch (error) {
       console.log(error);

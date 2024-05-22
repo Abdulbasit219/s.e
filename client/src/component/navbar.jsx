@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useAuth } from '../context/auth';
-import { Select } from 'antd';
-
-const { Option } = Select;
+import { Badge } from "antd";
+import { FaShoppingCart } from "react-icons/fa";
 
 const navbar = () => {
 
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
   const [opensearch, setOpensearch] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [auth, setAuth] = useAuth();
 
   const toggleMobileMenu = () => {
@@ -18,6 +18,10 @@ const navbar = () => {
   const toggleSearchMenu = () => {
     setOpensearch(!opensearch);
   }
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
 
   const handleLogout = () => {
     setAuth({
@@ -31,7 +35,7 @@ const navbar = () => {
 
   return (
     <>
-      <nav className="bg-black text-white">
+      <nav className="bg-black text-white sticky top-0 w-full z-10">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 
           {/* main logo */}
@@ -133,35 +137,75 @@ const navbar = () => {
             </div>
 
             {/* list item */}
-            <ul className="flex hidden md:flex flex-col p-4 md:p-0 mt-4 font-medium rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 bg-black">
+            <ul className="flex hidden md:flex flex-col p-4 md:p-0 mt-4 font-medium rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 bg-black items-center">
 
               {
                 auth.user ?
                   (
                     <>
+                      {/* home */}
                       <li>
-                        <NavLink
+                        <Link
                           to={'/'}
-                          className={({ isActive }) => `block py-2 px-3 ${isActive ? "text-blue-700" : 'text-white'} rounded md:p-0`}
+                          className={`block py-2 px-3 hover:opacity-50 text-white rounded md:p-0`}
                         >
                           Home
-                        </NavLink>
+                        </Link>
                       </li>
 
-                      <li>
-                        <Select
-                          placeholder={auth?.user?.name}
+                      {/* dropdown btn if user login */}
+                      <div className="relative inline-block text-left">
+                        {/* dropdown btn */}
+                        <button
+                          onClick={toggleDropdown}
+                          className="text-white hover:opacity-50 font-medium rounded-lg text-sm py-2.5 text-center inline-flex items-center"
                         >
-                          <Option>
-                            Dashboard
-                          </Option>
-                          <Option>
-                            <Link to="/" className='block px-4 py-2' onClick={handleLogout}>
-                              <li >Log out</li>
-                            </Link>
-                          </Option>
-                        </Select>
-                      </li>
+                          {auth?.user?.name}
+                          <svg
+                            className="w-2.5 h-2.5 ms-3"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 10 6"
+                          >
+                            <path
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="m1 1 4 4 4-4"
+                            />
+                          </svg>
+                        </button>
+
+
+                        {/* dropdown menu */}
+                        {isOpen && (
+                          <div
+                            id="dropdown"
+                            className="z-10 bg-black rounded-lg shadow w-44 text-white absolute right-0 mt-2"
+                          >
+                            <ul
+                              className="py-2 text-sm"
+                              aria-labelledby="dropdownDefaultButton"
+                            >
+                              <li>
+                                <Link to={'/dashboard'}
+                                  className="block px-4 py-2 hover:bg-gray-100 hover:text-black">
+                                  Dashboard
+                                </Link>
+                              </li>
+                              <li>
+                                <Link to={'/'}
+                                  onClick={handleLogout}
+                                  className="block px-4 py-2 hover:bg-gray-100 hover:text-black">
+                                  Logout
+                                </Link>
+                              </li>
+                            </ul>
+                          </div>
+                        )}
+                      </div>
 
                     </>
                   )
@@ -177,6 +221,7 @@ const navbar = () => {
                           Sign In
                         </NavLink>
                       </li>
+
                       {/* signup */}
                       <li>
                         <NavLink
@@ -192,16 +237,20 @@ const navbar = () => {
 
               {/* cart */}
               <li>
-                <NavLink
-                  to={'/'}
-                  className={({ isActive }) => `block py-2 px-3 ${isActive ? "text-blue-700" : 'text-white'} rounded md:p-0`}
-                >
-                  cart
-                </NavLink>
+                <Badge count={0} showZero className='text-white'>
+                  <Link
+                    to={'/'}
+                    className={`block py-2 px-3 text-blue-700 text-white rounded md:p-0 hover:opacity-50`}
+                  >
+                    <FaShoppingCart className='text-2xl' />
+                  </Link>
+                </Badge>
               </li>
+              
             </ul>
 
           </div>
+
 
           <div
             className="bg-black items-center justify-between w-full md:flex md:w-auto md:order-2"
@@ -270,7 +319,6 @@ const navbar = () => {
                 </ul>
               )
             }
-
           </div>
 
         </div>

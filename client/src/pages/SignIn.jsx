@@ -1,9 +1,10 @@
 import Layout from '../component/Layout'
 import { React, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from '../context/auth';
 import Eyebtn from '../component/Eyebtn'
+import { toast } from 'react-hot-toast'
 
 const Login = () => {
 
@@ -15,6 +16,7 @@ const Login = () => {
   const [auth, setAuth] = useAuth();
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,22 +25,26 @@ const Login = () => {
         email,
         password,
       });
+
       if (res.data.success) {
+        
         setAuth({
-          // ...auth,
+          ...auth,
           user: res.data.user,
           token: res.data.token
         })
-        alert("Successfully login");
+        
+        toast.success(res.data.message);
         localStorage.setItem('userdata', JSON.stringify(res.data));
-        navigate("/");
+        navigate(location.state || "/");
+
       } else {
-        // toast.error(res.data.message);
-        alert("Invalid email or Password")
+        toast.error(res.data.message);
       }
-    } catch (error) {
+    }
+    catch (error) {
       console.log(error);
-      // toast.error("Something went wrong");
+      toast.error("Something went wrong");
     }
   };
 

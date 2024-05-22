@@ -71,13 +71,13 @@ const Home = () => {
                   <div className='w-full flex justify-between my-2'>
                     <button className='bg-blue-500 p-2 mx-4 rounded-lg font-bold text-white hover:opacity-50'>Add to cart</button>
 
-                    {/* <Link to={`/singleproducts/${id}`}> */}
-                    <button
-                      className='bg-blue-500 p-2 mx-4 rounded-lg font-bold text-white hover:opacity-50'
-                      onClick={() => navigate(product.id)}
-                    >
-                      More detail
-                    </button>
+                    <Link to={`/products/${product.id}`}>
+                      <button
+                        className='bg-blue-500 p-2 mx-4 rounded-lg font-bold text-white hover:opacity-50'
+                      >
+                        More detail
+                      </button>
+                    </Link>
                   </div>
                 </div>
               ))

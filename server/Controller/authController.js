@@ -66,7 +66,7 @@ export const loginController = async (req, res) => {
     if(!matchpass){
       return res.status(200).send({
         success:false,
-        message:"invalid password"
+        message:"invalid Credentials"
       })
     }
 
