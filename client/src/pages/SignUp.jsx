@@ -5,7 +5,6 @@ import axios from "axios";
 import Eyebtn from "../component/Eyebtn";
 import toast from "react-hot-toast";
 
-
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

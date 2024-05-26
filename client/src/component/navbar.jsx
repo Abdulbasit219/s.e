@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { useAuth } from '../context/auth';
 import { Badge } from "antd";
 import { FaShoppingCart } from "react-icons/fa";
+import { useSelector } from 'react-redux';
 
 const navbar = () => {
 
@@ -31,6 +32,9 @@ const navbar = () => {
     })
     localStorage.removeItem('userdata')
   }
+
+  const item = useSelector((state) => (state.cart))
+
 
 
   return (
@@ -237,9 +241,9 @@ const navbar = () => {
 
               {/* cart */}
               <li>
-                <Badge count={0} showZero className='text-white'>
+                <Badge count={item.length} showZero className='text-white'>
                   <Link
-                    to={'/'}
+                    to={'/addtocart'}
                     className={`block py-2 px-3 text-blue-700 text-white rounded md:p-0 hover:opacity-50`}
                   >
                     <FaShoppingCart className='text-2xl' />

@@ -1,12 +1,19 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import Layout from '../component/Layout'
-import axios from 'axios'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import Layout from '../component/Layout';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import HeroSection from '../component/HeroSection';
+import Category from '../component/Categories';
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from "../store/cartSlice.js";
 
 const Home = () => {
 
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  const item = useSelector((state) => (state.cart))
 
   const fetchProducts = async () => {
     try {
@@ -19,13 +26,26 @@ const Home = () => {
     }
   }
 
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product))
+  }
+
   useEffect(() => {
     fetchProducts();
   }, [])
 
   return (
-    <Layout >
-      <div className="bg-white">
+    <Layout>
+
+      <div>
+        <HeroSection />
+      </div>
+
+      <div className='my-8'>
+        <Category />
+      </div>
+
+      <div className="bg-white" id='home-page'>
         <div className="mx-auto max-w-2xl px-4 py-6 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
 
           {/* main heading */}
@@ -69,11 +89,13 @@ const Home = () => {
                     {/* btn more details & add to cart */}
                   </div>
                   <div className='w-full flex justify-between my-2'>
-                    <button className='bg-blue-500 p-2 mx-4 rounded-lg font-bold text-white hover:opacity-50'>Add to cart</button>
+                    <button className='bg-indigo-600 hover:bg-indigo-500 p-2 mx-4 rounded-lg font-bold text-white'
+                      onClick={() => (handleAddToCart(product))}
+                    >Add to cart</button>
 
                     <Link to={`/products/${product.id}`}>
                       <button
-                        className='bg-blue-500 p-2 mx-4 rounded-lg font-bold text-white hover:opacity-50'
+                        className='bg-indigo-600 hover:bg-indigo-500 p-2 mx-4 rounded-lg font-bold text-white'
                       >
                         More detail
                       </button>
