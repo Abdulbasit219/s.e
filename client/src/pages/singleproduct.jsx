@@ -2,11 +2,20 @@ import { React, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios'
 import Layout from "../component/Layout";
+import Spinner from "../component/Spinner";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from "../store/cartSlice.js";
+import { useAuth } from '../context/auth.jsx';
+import toast from "react-hot-toast";
 
 const singleproduct = () => {
 
   const [singleProduct, setSingleProduct] = useState([]);
   const { id } = useParams();
+  const [auth] = useAuth();
+
+  const dispatch = useDispatch();
+  const item = useSelector((state) => (state.cart))
 
   const fetchProduct = async () => {
     try {
@@ -16,16 +25,32 @@ const singleproduct = () => {
       }
     } catch (error) {
       console.log(error);
-    } 
+    }
+  }
+
+  const handleAddToCart = (product) => {
+    if (!auth.user) {
+      return toast.error("Please Login First to add product")
+    }
+    // check existing product
+    const itemExists = item.some(item => item.id === product.id);
+    if (itemExists) {
+      toast.success('Item Already Exists in cart');
+      return;
+    }
+    else {
+      dispatch(addToCart(product))
+      toast.success('Item Added successfully');
+    }
   }
 
   useEffect(() => {
     fetchProduct();
   }, [id])
 
-  if(!Object.keys(singleProduct).length > 0 )
-    return(
-        <div>Loading...</div>
+  if (!Object.keys(singleProduct).length > 0)
+    return (
+      <div><Spinner /></div>
     )
 
   return (
@@ -60,7 +85,7 @@ const singleproduct = () => {
                 <span className="title-font font-medium text-2xl text-gray-900">{singleProduct?.price}
                 </span>
 
-                <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Add to Cart
+                <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" onClick={() => (handleAddToCart(singleProduct))}>Add to Cart
                 </button>
 
               </div>

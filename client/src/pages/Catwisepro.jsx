@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import Layout from '../component/Layout';
+import React, { useEffect, useState } from 'react'
+import Layout from '../component/Layout'
+import { Link, useParams } from 'react-router-dom'
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import HeroSection from '../component/HeroSection';
-import Category from '../component/Categories';
+import Spinner from '../component/Spinner';
+import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../store/cartSlice.js";
 import { useAuth } from '../context/auth.jsx';
-import toast from 'react-hot-toast';
 
-const Home = () => {
+const Catwisepro = () => {
 
+  const { category } = useParams();
   const [products, setProducts] = useState([]);
   const [auth] = useAuth();
 
   const dispatch = useDispatch();
   const item = useSelector((state) => (state.cart))
 
-  const fetchProducts = async () => {
+  const getProducts = async () => {
     try {
-      const res = await axios.get('https://fakestoreapi.com/products');
-      if (res.data) {
-        setProducts(res.data);
+      const { data } = await axios.get(`https://fakestoreapi.com/products/category/${category}`);
+      if (data) {
+        setProducts(data);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
@@ -45,25 +45,28 @@ const Home = () => {
   }
 
   useEffect(() => {
-    fetchProducts();
+    getProducts();
   }, [])
+
+  if (!Object.keys(products).length > 0)
+    return (
+      <div><Spinner /></div>
+    )
 
   return (
     <Layout>
-
-      <div>
-        <HeroSection />
-      </div>
-
-      <div className='my-8'>
-        <Category />
-      </div>
-
       <div className="bg-white" id='home-page'>
         <div className="mx-auto max-w-2xl px-4 py-6 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
 
-          {/* main heading */}
-          <h2 className="text-4xl font-bold tracking-tight text-gray-900 text-center">All Latest Products</h2>
+          <div className='text-2xl font-serif font-bold text-center py-6'>
+            {
+              products.length < 1
+                ?
+                <p>No Products Found from this Category At this time</p>
+                :
+                <p>{products.length} Products founds from this Category</p>
+            }
+          </div>
 
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             {
@@ -127,4 +130,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Catwisepro

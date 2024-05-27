@@ -35,8 +35,6 @@ const navbar = () => {
 
   const item = useSelector((state) => (state.cart))
 
-
-
   return (
     <>
       <nav className="bg-black text-white sticky top-0 w-full z-10">
@@ -50,7 +48,7 @@ const navbar = () => {
               alt="Flowbite Logo"
             />
             <span className="self-center text-2xl font-semibold whitespace-nowrap px-2">
-              Flowbite
+              BASAR
             </span>
           </div>
 

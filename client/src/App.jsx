@@ -9,6 +9,7 @@ import PrivateRoutes from "./component/routes/PrivateRoutes";
 import AddToCart from "./pages/AddToCart";
 import { Provider } from "react-redux"
 import store from "./store/store"
+import Catwisepro from "./pages/Catwisepro";
 
 const App = () => {
   return (
@@ -20,7 +21,8 @@ const App = () => {
             <Route path='/signin' element={<Signin />} />
             <Route path='/signup' element={<SignUp />} />
             <Route path="/products/:id" element={<Singleproduct />} />
-            <Route path="/addtocart" element={<AddToCart/>}/>
+            <Route path="/addtocart" element={<AddToCart />} />
+            <Route path="/categories/:category" element={<Catwisepro />} />
 
             {/* //private routes nestin routing */}
             <Route path="/dashboard" element={<PrivateRoutes />}>

@@ -21,21 +21,19 @@ const HeroSection = () => {
                     </div>
 
                 </div>
-                
+
 
                 <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-28">
                     <div className="text-center">
 
                         {/* main heading */}
                         <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                            Data to enrich your online business
-                        </h1>
+                            Unlock Extraordinary Discover Your Perfect Find Today!</h1>
 
                         {/* description  */}
                         <p className="mt-6 text-lg leading-8 text-gray-600">
-                            Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet
-                            fugiat veniam occaecat fugiat aliqua.
-                        </p> 
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad aperiam facere praesentium molestiae debitis rerum ratione consequatur iure culpa!
+                        </p>
 
                         {/* btn get started */}
                         <div className="mt-10 flex items-center justify-center gap-x-6">
